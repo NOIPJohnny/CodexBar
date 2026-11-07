@@ -2803,6 +2803,7 @@
 "SiliconFlow is rate limiting requests. Try again later." = "SiliconFlow limite la fréquence des requêtes. Réessayez plus tard.";
 "SiliconFlow request failed. Try refreshing later." = "La requête SiliconFlow a échoué. Réessayez d’actualiser plus tard.";
 "SiliconFlow returned an unrecognized response. Update CodexBar and try again." = "SiliconFlow a renvoyé une réponse inconnue. Mettez CodexBar à jour et réessayez.";
+"Sign in to cloud.siliconflow.cn in your browser, then refresh CodexBar." = "Connectez-vous à cloud.siliconflow.cn dans votre navigateur, puis actualisez CodexBar.";
 "Claude Platform session validated and saved." = "La session Claude Platform a été validée et enregistrée.";
 "Use %@ or %@." = "Utilisez %@ ou %@.";
 "Sign in at %@. Supply its Cookie header containing sessionKey privately to %@. Then run %@." = "Connectez-vous à %@. Transmettez de manière privée son en-tête Cookie contenant sessionKey à %@. Exécutez ensuite %@.";

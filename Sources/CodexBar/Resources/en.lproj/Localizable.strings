@@ -2809,6 +2809,7 @@
 "SiliconFlow is rate limiting requests. Try again later." = "SiliconFlow is rate limiting requests. Try again later.";
 "SiliconFlow request failed. Try refreshing later." = "SiliconFlow request failed. Try refreshing later.";
 "SiliconFlow returned an unrecognized response. Update CodexBar and try again." = "SiliconFlow returned an unrecognized response. Update CodexBar and try again.";
+"Sign in to cloud.siliconflow.cn in your browser, then refresh CodexBar." = "Sign in to cloud.siliconflow.cn in your browser, then refresh CodexBar.";
 "Claude Platform session validated and saved." = "Claude Platform session validated and saved.";
 "Use %@ or %@." = "Use %@ or %@.";
 "Sign in at %@. Supply its Cookie header containing sessionKey privately to %@. Then run %@." = "Sign in at %@. Supply its Cookie header containing sessionKey privately to %@. Then run %@.";

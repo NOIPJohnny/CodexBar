@@ -2782,6 +2782,7 @@
 "SiliconFlow is rate limiting requests. Try again later." = "SiliconFlow 正在限制請求頻率。請稍後再試。";
 "SiliconFlow request failed. Try refreshing later." = "SiliconFlow 請求失敗。請稍後嘗試重新整理。";
 "SiliconFlow returned an unrecognized response. Update CodexBar and try again." = "SiliconFlow 傳回了無法辨識的回應。請更新 CodexBar 後再試。";
+"Sign in to cloud.siliconflow.cn in your browser, then refresh CodexBar." = "在瀏覽器中登入 cloud.siliconflow.cn，然後重新整理 CodexBar。";
 "Claude Platform session validated and saved." = "已驗證並儲存 Claude Platform 工作階段。";
 "Use %@ or %@." = "請使用 %@ 或 %@。";
 "Sign in at %@. Supply its Cookie header containing sessionKey privately to %@. Then run %@." = "請登入 %@。將包含 sessionKey 的 Cookie 請求標頭私密地傳給 %@，然後執行 %@。";
