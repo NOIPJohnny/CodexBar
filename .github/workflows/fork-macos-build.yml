@@ -1,0 +1,74 @@
+name: Fork macOS build
+
+# Fork-only: focused SiliconFlow tests plus an ad-hoc arm64 app artifact for manual testing.
+# Not intended for upstream; keep it out of the provider PR.
+on:
+  push:
+    branches: ["fix/**", "pr/siliconflow-cn-web-balance"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fork-macos-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    if: ${{ github.repository != 'steipete/CodexBar' }}
+    runs-on: xcode-27
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Select Xcode 27
+        run: |
+          set -euo pipefail
+          sudo xcode-select -s /Applications/Xcode_27.0.app/Contents/Developer
+          echo "DEVELOPER_DIR=/Applications/Xcode_27.0.app/Contents/Developer" >> "$GITHUB_ENV"
+          [[ "$(/usr/bin/xcodebuild -version)" == Xcode\ 27* ]]
+
+      - name: Toolchain
+        run: |
+          set -euo pipefail
+          {
+            printf '| Field | Value |\n| --- | --- |\n'
+            printf '| Commit | `%s` |\n' "$GITHUB_SHA"
+            printf '| Xcode | `%s` |\n' "$(/usr/bin/xcodebuild -version | tr '\n' ' ')"
+            printf '| Swift | `%s` |\n' "$(swift --version 2>&1 | head -1)"
+            printf '| SDK | `%s` |\n' "$(xcrun --show-sdk-version)"
+            printf '| Arch | `%s` |\n' "$(uname -m)"
+          } | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Plugin JavaScript is current
+        run: ./Scripts/regenerate-plugin-js.sh --check
+
+      - name: Lint
+        run: ./Scripts/lint.sh lint-macos
+
+      - name: Focused tests
+        timeout-minutes: 45
+        run: |
+          ./Scripts/test_fast.sh \
+            --filter 'SiliconFlow' \
+            --filter 'PluginCookieProviderSpecTests' \
+            --filter 'ConfigValidationTests' \
+            --filter 'ProviderArchitectureGatekeeperTests'
+
+      - name: Provider plugin engine A/B goldens
+        run: ./Scripts/test-plugin-engines.sh
+
+      - name: Package ad-hoc arm64 app
+        run: |
+          set -euo pipefail
+          CODEXBAR_SIGNING=adhoc ARCHES=arm64 ./Scripts/package_app.sh release
+          lipo -archs CodexBar.app/Contents/MacOS/CodexBar
+          ditto -c -k --sequesterRsrc --keepParent CodexBar.app "CodexBar-${GITHUB_SHA::12}-arm64.zip"
+
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: CodexBar-${{ github.sha }}-arm64
+          path: CodexBar-*-arm64.zip
+          if-no-files-found: error
+          retention-days: 14
